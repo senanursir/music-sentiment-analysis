@@ -1,4 +1,4 @@
-from tests.test_api_client import test_spotify_connection, test_genius_connection
+"""from tests.test_api_client import test_spotify_connection, test_genius_connection
 
 if __name__ == "__main__":
     test_spotify_connection()
@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
 
     def collect_lyrics():
-        """Main lyrics collection function"""
+        #Main lyrics collection function
 
         # Load the dataset
         dataset_path = "data/raw/Hot100.csv"
@@ -77,3 +77,25 @@ if __name__ == "__main__":
 
     if __name__ == "__main__":
         collect_lyrics()
+
+        import pandas as pd
+        from src.text_preprocessor import TextPreprocessor
+
+        df = pd.read_csv("data/processed/billboard_with_lyrics_v2.csv")
+        preprocessor = TextPreprocessor()
+        result = preprocessor.process_dataset(df)
+        result.to_csv("data/processed/billboard_preprocessed.csv", index=False)
+
+        stats = preprocessor.get_statistics(result)
+        print(stats)"""
+import pandas as pd
+from src.text_preprocessor import TextPreprocessor
+
+df = pd.read_csv("data/processed/billboard_with_lyrics_v2.csv")
+preprocessor = TextPreprocessor()
+result = preprocessor.process_dataset(df)
+result.to_csv("data/processed/billboard_preprocessed.csv", index=False)
+
+stats = preprocessor.get_statistics(result)
+print(stats)
+
