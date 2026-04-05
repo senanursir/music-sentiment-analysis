@@ -88,7 +88,7 @@ if __name__ == "__main__":
 
         stats = preprocessor.get_statistics(result)
         print(stats)"""
-import pandas as pd
+"""import pandas as pd
 from src.text_preprocessor import TextPreprocessor
 
 df = pd.read_csv("data/processed/billboard_with_lyrics_v2.csv")
@@ -97,5 +97,27 @@ result = preprocessor.process_dataset(df)
 result.to_csv("data/processed/billboard_preprocessed.csv", index=False)
 
 stats = preprocessor.get_statistics(result)
-print(stats)
+print(stats)"""
+
+
+import pandas as pd
+from src.sentiment_analyzer import SentimentAnalyzer
+
+# 1. Bir önceki aşamada ürettiğimiz TEMİZLENMİŞ veriyi okuyoruz
+df = pd.read_csv("data/processed/billboard_preprocessed.csv")
+
+# 2. Analiz sınıfını başlatıyoruz (RoBERTa modelini indireceği için ilk çalışmada biraz bekletebilir)
+print("Modeller yükleniyor, lütfen bekleyin...")
+analyzer = SentimentAnalyzer(use_transformer=True)
+
+# 3. Analizi başlatıyoruz
+# DİKKAT: Temizlenmiş şarkı sözlerimiz 'cleaned_lyrics' sütununda olduğu için onu parametre olarak veriyoruz
+result_df = analyzer.analyze_dataset(df, lyrics_col="cleaned_lyrics")
+
+# 4. Sonuçları yeni bir CSV olarak kaydediyoruz
+result_df.to_csv("data/processed/billboard_sentiment.csv", index=False)
+
+# 5. Modeller arası korelasyonu ve istatistikleri ekrana basıyoruz
+print("\nAnaliz tamamlandı! Sonuçlar:")
+analyzer.compare_methods(result_df)
 
